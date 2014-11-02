@@ -1,5 +1,7 @@
 -- 99 Problems
 
+import Data.List
+
 --
 -- 01 Find the last element of a list.
 --
@@ -73,7 +75,39 @@ isPalindrome list = list == reversed
 -- 07 Flatten a nested list structure.
 --
 
-data NestedList a = Elem a | List [NestedList a]
+--data NestedList a = Elem a | List [NestedList a]
 
-flatten [] = []
---flatten (x:xs) = 
+--flatten :: NestedList a -> [a]
+--flatten (Elem x) = [x]
+--flatten (List x) = concatMap flatten x
+
+--
+-- 08 Eliminate consecutive duplicates of list elements.
+--
+
+compress :: (Eq a) => [a] -> [a]
+compress [] = []
+compress [x] = [x]
+compress (x:y:xs)
+    | x == y = compress (y:xs)
+    | otherwise = x : compress (y:xs)
+
+--
+-- 09 Pack consecutive duplicates of list elements into sublists. 
+-- If a list contains repeated elements they should be placed in separate sublists.
+--
+
+--import Data.List
+
+--pack :: [a] -> [[a]]
+--pack = group -- Lol
+
+--
+-- 10  Run-length encoding of a list. 
+-- Use the result of problem P09 to implement the so-called run-length encoding data compression method. 
+-- Consecutive duplicates of elements are encoded as lists (N E) where N is the number of duplicates of the element E.
+--
+
+encode :: (Eq a) => [a] -> [(Int, [a])]
+encode xs = map runLength (group xs)
+    where runLength list = (length list, list)
