@@ -72,3 +72,8 @@ isPalindrome list = list == reversed
 --
 -- 07 Flatten a nested list structure.
 --
+
+data NestedList a = Elem a | List [NestedList a]
+
+flatten [] = []
+--flatten (x:xs) = 
