@@ -138,3 +138,58 @@ decodeModified list = concatMap runLengthToList list
         where
     runLengthToList (Single x) = [x]
     runLengthToList (Multiple count x) = replicate count x
+
+--
+-- 14 Duplicate the elements of a list.
+--
+
+dupli :: [a] -> [a]
+dupli = concatMap (\x -> [x, x])
+
+--
+-- 15 Replicate the elements of a list a given number of times.
+--
+
+repli :: [a] -> Int -> [a]
+repli xs n = concatMap (\x -> replicate n x) xs
+
+--
+-- 16 Drop every N'th element from a list.
+--
+
+dropEvery :: [a] -> Int -> [a]
+dropEvery xs n = dropEveryRec xs n n
+    where
+        dropEveryRec [] _ _ = []
+        dropEveryRec (x:xs) 1 n = dropEveryRec xs n n
+        dropEveryRec (x:xs) c n = x : dropEveryRec xs (c - 1) n
+
+--
+-- 17 Split a list into two parts; the length of the first part is given.
+--
+
+split :: [a] -> Int -> ([a], [a])
+split xs n = splitRec n [] xs
+    where
+        splitRec 0 xs ys = (xs, ys)
+        splitRec n xs (y:ys) =  splitRec (n - 1) (xs ++ [y]) ys
+
+--
+-- 18 Extract a slice from a list.
+-- Given two indices, i and k, the slice is the list containing the elements between the i'th and k'th element of the original list (both limits included). 
+-- Start counting the elements with 1.
+--
+
+slice :: [a] -> Int -> Int -> [a]
+slice xs i j = take (j + 1 - i) $ drop (i - 1) xs
+
+--
+-- 19 Rotate a list N places to the left.
+-- Hint: Use the predefined functions length and (++).
+--
+
+rotate :: [a] -> Int -> [a]
+rotate xs n
+    | n >= 0    = drop n xs ++ take n xs
+    | otherwise = drop k xs ++ take k xs
+        where k = length xs + n 
