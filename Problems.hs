@@ -193,3 +193,15 @@ rotate xs n
     | n >= 0    = drop n xs ++ take n xs
     | otherwise = drop k xs ++ take k xs
         where k = length xs + n 
+
+--
+-- 20 Remove the K'th element from a list.
+--
+
+removeAt :: Int -> [a] -> (a, [a])
+removeAt n xs = (xs !! (n - 1), removeKth n xs)
+    where
+        removeKth _ [] = []
+        removeKth 0 (x:xs) = x : removeKth 0 xs
+        removeKth 1 (x:xs) = removeKth 0 xs
+        removeKth n (x:xs) = x : removeKth (n - 1) xs
