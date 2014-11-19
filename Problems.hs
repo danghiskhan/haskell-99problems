@@ -205,3 +205,38 @@ removeAt n xs = (xs !! (n - 1), removeKth n xs)
         removeKth 0 (x:xs) = x : removeKth 0 xs
         removeKth 1 (x:xs) = removeKth 0 xs
         removeKth n (x:xs) = x : removeKth (n - 1) xs
+
+--
+-- 21 Insert an element at a given position into a list.
+--
+
+insertAt :: a -> [a] -> Int -> [a]
+insertAt a xs n = take (n - 1) xs ++ [a] ++ drop (n - 1) xs
+
+--
+-- 22 Create a list containing all integers within a given range.
+--
+
+range :: Int -> Int -> [Int]
+range a b
+    | a > b = []
+    | otherwise = [a] ++ range (a + 1) b
+
+range' a b = [a..b]
+
+--
+-- 26 Generate the combinations of K distinct objects chosen from the N elements of a list
+--
+-- In how many ways can a committee of 3 be chosen from a group of 12 people? 
+-- We all know that there are C(12,3) = 220 possibilities (C(N,K) denotes the well-known binomial coefficients). 
+-- For pure mathematicians, this result may be great. But we want to really generate all the possibilities in a list.
+--
+
+combinations :: Int -> [a] -> [[a]]
+combinations _ [] = []
+combinations n (x:xs) = (combinations' (n - 1) [x] xs) ++ combinations n xs
+    where
+        combinations' 0 chosen _ = [chosen]
+        combinations' _ chosen [] = [] -- When a given combination isn't long enough
+        combinations' numLeft chosen (y:ys) = 
+            (combinations' (numLeft - 1) (chosen ++ [y]) ys) ++ combinations' numLeft chosen ys
